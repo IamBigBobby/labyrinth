@@ -87,17 +87,17 @@ document.onkeydown = function (event){
 		block.style.left = left + 'px';
 		left++;
 	}
-	if(event.key == 'ArrowDown'){
+	else if(event.key == 'ArrowDown'){
 		block.style.top = up + 'px';
 		up++;
 	}
-	if(event.key == 'ArrowLeft'){
-		block.style.right = right + 'px';
-		right++;
+	else if(event.key == 'ArrowLeft'){
+		block.style.left = left + 'px';
+		left--;
 	}
-	if(event.key == 'ArrowUp'){
-		block.style.bottom = down + 'px';
-		down++;
+	else if(event.key == 'ArrowUp'){
+		block.style.top = up + 'px';
+		up--;
 	}
 }
 
