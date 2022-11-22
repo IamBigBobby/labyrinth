@@ -1,7 +1,7 @@
 
 const data = `{
-	"width": 12,
-	"height": 12,
+	"width": 10,
+	"height": 10,
 	"fields": [
 		{"x": 2, "y": 2, "type": "wall"},
 		{"x": 3, "y": 2, "type": "wall"},
@@ -36,7 +36,7 @@ const data = `{
 		{"x": 7, "y": 8, "type": "wall"},
 		{"x": 7, "y": 9, "type": "wall"},
 		{"x": 7, "y": 10, "type": "wall"},
-		{"x": 1, "y": 1, "type": "enter"},
+		{"x": 1, "y": 2, "type": "enter"},
 		{"x": 9, "y": 5, "type": "exit"}
 	]
 }`;
@@ -60,212 +60,60 @@ for (let i = 0; i < parsedData.width; i++) {
  
 let cell = document.querySelector('td')
 
-for (let i = 1; i < parsedData.fields.length; i++){
-	// console.log(parsedData.fields[i])
+for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
-		table.rows[parsedData.fields[i].x].cells[parsedData.fields[i].y].classList.add('enter')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
 	}
 	if(parsedData.fields[i].type == 'exit'){
-		table.rows[parsedData.fields[i].x].cells[parsedData.fields[i].y].classList.add('exit')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit')
 	}
 	else{
-		table.rows[parsedData.fields[i].x].cells[parsedData.fields[i].y].classList.add('wall')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall')
 	}	
 }
 
-let block = document.querySelector('.enter');
-console.log(block)
-let exit = document.querySelector('.exit')
+// добавить координаты
 let left = 0;
 let up = 0;
-let right = 0;
-let down = 0;
+
+
+// old movement
+
+// document.onkeydown = function (event){
+// 	console.log(event);
+// 	if (event.key =="ArrowRight"){
+// 		block.style.left = left + 'px';
+// 		left++;
+// 	}
+// 	else if(event.key == 'ArrowDown'){
+// 		block.style.top = up + 'px';
+// 		up++;
+// 	}
+// 	else if(event.key == 'ArrowLeft'){
+// 		block.style.left = left - 'px';
+// 		left--;
+// 	}
+// 	else if(event.key == 'ArrowUp'){
+// 		block.style.top = up - 'px';
+// 		up--;
+// 	}
+// }
 
 document.onkeydown = function (event){
-	console.log(event);
-	if (event.key =="ArrowRight"){
-		block.style.left = left + 'px';
+	if (event.key == "ArrowRight"){
 		left++;
 	}
-	else if(event.key == 'ArrowDown'){
-		block.style.top = up + 'px';
+	else if(event.key == "ArrowDown"){
 		up++;
 	}
-	else if(event.key == 'ArrowLeft'){
-		block.style.left = left + 'px';
+	else if (event.key == "ArrowLeft"){
 		left--;
 	}
-	else if(event.key == 'ArrowUp'){
-		block.style.top = up + 'px';
+	else if (event.key == "ArrowUp"){
 		up--;
 	}
+	document.querySelector('.enter').classList.remove('enter');
+	table.rows[up].cells[left].classList.add('enter');
 }
+// bla-bla
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // console.log(parsedData.fields)
-// // console.log(parsedData.fields[3].x)
-// // console.log(parsedData.fields[9].y)
-// // console.log(table.rows[0].cells[3])
-
-// for (let j = 0; j < parsedData.fields.length; j++){
-// 	console.log(parsedData.fields[j])
-// 	for (let i = 0, row; row = table.rows[i]; i++){
-// 		console.log(row)
-// 		for (let k = 0, col; col = row.cells[k]; k++){
-// 			table.cell.classList.add('wall')
-// 		}
-// 	}
-// }
-
-
-
-// // for (let i = 0; i < parsedData.width * parsedData.height; i++){
-// // 	console.log(parsedData.fields[i]);
-// // 	numberOfrow = 1;
-// // 	numberOfcell = 1;
-// // 	if (numberOfrow === parsedData.fields[i].x){
-// // 		for (let row of table.rows){
-// // 			if (numberOfcell === parsedData.fields[i].y){
-
-// // 			}
-// // 		}
-// // 	}
-	
-// // }
-
-
-// // for (let row of table.rows){
-// // 	console.log(table.rows)
-// // 	for (let cell of row.cells){
-// // 		const text = cell.innerText;
-// // 		cell.innerText = '123'
-// // 	}
-// // }
-
-
-// console.log(parsedData.fields.length)
-// console.log(parsedData.fields[0])
-// console.log(cell)
-
-
-// for (let i = 0; i < parsedData.fields.length; i++){
-// 	// console.log(parsedData.fields[i])
-// 	for (let j = 0, row; row = table.rows[j]; j++){
-// 		console.log(row)
-// 		for (let k = 0, col; col = row.cells[k]; k++){
-// 			console.log(col)
-// 		}
-// 	}
-// }
-
-// for (let i = 0; i < parsedData.fields.length; i++){
-// 	// console.log(parsedData.fields[i])
-// 	for (let j = 0, row; row = table.rows[j]; j++){
-// 		console.log(row)
-// 		for (let k = 0, col; col = row.cells[k]; k++){
-// 			console.log(col)
-// 		}
-// 	}
-// }
-// for (let j = 0, row; row = table.rows[j]; j++){
-// 	console.log(row)
-// 	for (let i = 0; i < parsedData.fields.length; i++){
-// 		if(j === parsedData.fields[i].x){
-// 			for (let k = 0, col; col = row.cells[k]; k++){
-// 				if( k === parsedData.fields[i].y){
-// 					cell.classList.add('wall')
-// 				}
-// 			}
-// 		}
-// 	}
-// }
