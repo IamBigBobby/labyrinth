@@ -110,6 +110,8 @@ document.onkeydown = function (event){
 	// wall clash
 	if (table.rows[y].cells[x].classList.value == 'exit enter'){
 		alert('game over');
+		document.querySelector('.enter').classList.remove('enter');
+		return
 	}
 	document.querySelector('.enter').classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
