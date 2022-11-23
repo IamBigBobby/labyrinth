@@ -58,10 +58,9 @@ for (let i = 0; i < parsedData.width; i++) {
 }
 
  
-let x;
-let y;
-console.log(y)
-console.log(x)
+let x = 0;
+let y = 0;
+
 for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
@@ -76,9 +75,9 @@ for (let i = 0; i < parsedData.fields.length; i++){
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall')
 	}	
 }
-console.log(y)
-console.log(x)
-document.onkeydown = function (event){
+
+
+document.onkeydown = function movement (event){
 	if (event.key === "ArrowRight"){
 		x++;
 	}
@@ -91,10 +90,25 @@ document.onkeydown = function (event){
 	else if (event.key === "ArrowUp"){
 		y--;
 	}
+
+
+	if(x < 0){
+		x = 0;
+	}
+	else if (x > 9){
+		x = 9;
+	}
+	
+	if(y < 0){
+		y = 0;
+	}
+	else if (y > 9){
+		y = 9;
+	}
+
 	document.querySelector('.enter').classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
-	console.log(y)
-	console.log(x)
+	console.log(table.rows[y].cells[x].classList)
+	// console.log(x);
+	// console.log(y);
 }
-
-
