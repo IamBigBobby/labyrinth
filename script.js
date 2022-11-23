@@ -77,7 +77,8 @@ for (let i = 0; i < parsedData.fields.length; i++){
 }
 
 
-document.onkeydown = function movement (event){
+document.onkeydown = function (event){
+	// movement
 	if (event.key === "ArrowRight"){
 		x++;
 	}
@@ -91,7 +92,7 @@ document.onkeydown = function movement (event){
 		y--;
 	}
 
-
+	// border clash
 	if(x < 0){
 		x = 0;
 	}
@@ -106,9 +107,13 @@ document.onkeydown = function movement (event){
 		y = 9;
 	}
 
+	// wall clash
+	if (table.rows[y].cells[x].classList.value == 'exit enter'){
+		alert('game over');
+	}
 	document.querySelector('.enter').classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
-	console.log(table.rows[y].cells[x].classList)
+	console.log(table.rows[y].cells[x].classList.value)
 	// console.log(x);
 	// console.log(y);
 }
