@@ -58,62 +58,43 @@ for (let i = 0; i < parsedData.width; i++) {
 }
 
  
-let cell = document.querySelector('td')
-
+let x;
+let y;
+console.log(y)
+console.log(x)
 for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
+		// поменял х и у и все заработало, wtf
+		y = parsedData.fields[i].x - 1; 
+		x = parsedData.fields[i].y - 1;
 	}
-	if(parsedData.fields[i].type == 'exit'){
+	else if(parsedData.fields[i].type == 'exit'){
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit')
 	}
 	else{
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall')
 	}	
 }
-
-// добавить координаты
-let left = 0;
-let up = 0;
-
-
-// old movement
-
-// document.onkeydown = function (event){
-// 	console.log(event);
-// 	if (event.key =="ArrowRight"){
-// 		block.style.left = left + 'px';
-// 		left++;
-// 	}
-// 	else if(event.key == 'ArrowDown'){
-// 		block.style.top = up + 'px';
-// 		up++;
-// 	}
-// 	else if(event.key == 'ArrowLeft'){
-// 		block.style.left = left - 'px';
-// 		left--;
-// 	}
-// 	else if(event.key == 'ArrowUp'){
-// 		block.style.top = up - 'px';
-// 		up--;
-// 	}
-// }
-
+console.log(y)
+console.log(x)
 document.onkeydown = function (event){
-	if (event.key == "ArrowRight"){
-		left++;
+	if (event.key === "ArrowRight"){
+		x++;
 	}
-	else if(event.key == "ArrowDown"){
-		up++;
+	else if(event.key === "ArrowDown"){
+		y++;
 	}
-	else if (event.key == "ArrowLeft"){
-		left--;
+	else if (event.key === "ArrowLeft"){
+		x--;
 	}
-	else if (event.key == "ArrowUp"){
-		up--;
+	else if (event.key === "ArrowUp"){
+		y--;
 	}
 	document.querySelector('.enter').classList.remove('enter');
-	table.rows[up].cells[left].classList.add('enter');
+	table.rows[y].cells[x].classList.add('enter');
+	console.log(y)
+	console.log(x)
 }
-// bla-bla
+
 
