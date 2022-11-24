@@ -76,46 +76,46 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}	
 }
 
-
 document.onkeydown = function (event){
 	// movement
-	if (event.key === "ArrowRight"){
+	if (event.key === "ArrowRight" && checkField(x + 1, y)){
 		x++;
 	}
-	else if(event.key === "ArrowDown"){
+	else if(event.key === "ArrowDown" && checkField(x, y + 1)){
 		y++;
 	}
-	else if (event.key === "ArrowLeft"){
+	else if (event.key === "ArrowLeft" && checkField(x - 1, y)){
 		x--;
 	}
-	else if (event.key === "ArrowUp"){
+	else if (event.key === "ArrowUp" && checkField(x, y - 1)){
 		y--;
 	}
 
-	// border clash
-	if(x < 0){
-		x = 0;
-	}
-	else if (x > 9){
-		x = 9;
-	}
-	
-	if(y < 0){
-		y = 0;
-	}
-	else if (y > 9){
-		y = 9;
-	}
-
-	// wall clash
-	if (table.rows[y].cells[x].classList.value == 'exit enter'){
-		alert('game over');
-		document.querySelector('.enter').classList.remove('enter');
-		return
-	}
 	document.querySelector('.enter').classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
-	console.log(table.rows[y].cells[x].classList.value)
-	// console.log(x);
-	// console.log(y);
 }
+
+function checkField (x, y){
+	if (x < 0){
+		return false;
+	}
+	else if (x > parsedData.width - 1){
+		return false;
+	}
+	else if(y < 0){
+		return false;
+	}
+	else if (y > parsedData.height - 1){
+		return false;
+	}
+	else if (table.rows[y].cells[x].classList.contains('wall')){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
+
+
+
