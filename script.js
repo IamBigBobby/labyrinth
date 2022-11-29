@@ -96,6 +96,7 @@ document.onkeydown = function (event){
 }
 
 function checkField (x, y){
+	console.log(x, y)
 	if (x < 0){
 		return false;
 	}
@@ -111,9 +112,19 @@ function checkField (x, y){
 	else if (table.rows[y].cells[x].classList.contains('wall')){
 		return false;
 	}
+	else if (table.rows[y].cells[x].classList.contains('exit')){
+		document.querySelector('.enter').classList.remove('enter');
+		alert('game over')
+		refreshGame();
+	}
 	else{
 		return true;
 	}
+}
+
+function refreshGame(){
+	if((confirm('Играть заново?')))
+	window.location.reload();
 }
 
 

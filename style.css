@@ -12,18 +12,13 @@ td{
     border: 1px solid #000;
     position: relative;
 }
-tr{
-    position: relative;
-}
 .wall{
     background-color: black;
 
 }
 .enter{
     background-color: red;
-    position: absolute;
 }
 .exit{
     background-color: blue;
-
 }
