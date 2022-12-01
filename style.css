@@ -16,9 +16,10 @@ td{
     background-color: black;
 
 }
-.enter{
-    background-color: red;
-}
+
 .exit{
     background-color: blue;
+}
+.enter{
+    background-color: red;
 }

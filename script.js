@@ -93,10 +93,17 @@ document.onkeydown = function (event){
 
 	document.querySelector('.enter').classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
+
+	console.log(checkExit(x, y));
+	if (checkExit(x, y)){
+		gameOver();
+		refreshGame();
+	}
 }
 
+
+
 function checkField (x, y){
-	console.log(x, y)
 	if (x < 0){
 		return false;
 	}
@@ -112,21 +119,26 @@ function checkField (x, y){
 	else if (table.rows[y].cells[x].classList.contains('wall')){
 		return false;
 	}
-	else if (table.rows[y].cells[x].classList.contains('exit')){
-		document.querySelector('.enter').classList.remove('enter');
-		alert('game over')
-		refreshGame();
-	}
 	else{
 		return true;
 	}
 }
 
 function refreshGame(){
-	if((confirm('Играть заново?')))
-	window.location.reload();
+	// if(confirm('Играть заново?')){
+	// 	window.location.reload();
+	// }
 }
 
+function checkExit (x, y){
+	if (table.rows[y].cells[x].classList.contains('exit')){
+		return true;
+	}
+	return false;
+}
 
+function gameOver(){
+	document.onkeydown = undefined;
+}
 
 
