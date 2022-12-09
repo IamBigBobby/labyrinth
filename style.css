@@ -1,0 +1,25 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+table{
+    margin: 10% auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+td{
+    padding: 10px 10px;
+    border: 1px solid #000;
+    position: relative;
+}
+.wall{
+    background-color: black;
+
+}
+
+.exit{
+    background-color: blue;
+}
+.enter{
+    background-color: red;
+}
