@@ -76,30 +76,56 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}	
 }
 
-document.onkeydown = function (event){
-	// movement
-	if (event.key === "ArrowRight" && checkField(x + 1, y)){
+
+document.addEventListener('keydown', function (event) {
+	 keyName = event.key;
+
+	if (keyName == "ArrowRight" && checkField(x + 1, y)){
 		x++;
 	}
-	else if(event.key === "ArrowDown" && checkField(x, y + 1)){
+	else if(keyName == "ArrowDown" && checkField(x, y + 1)){
 		y++;
 	}
-	else if (event.key === "ArrowLeft" && checkField(x - 1, y)){
+	else if (keyName == "ArrowLeft" && checkField(x - 1, y)){
 		x--;
 	}
-	else if (event.key === "ArrowUp" && checkField(x, y - 1)){
+	else if (keyName == "ArrowUp" && checkField(x, y - 1)){
 		y--;
 	}
 
 	document.querySelector('.enter').classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
 
-	console.log(checkExit(x, y));
 	if (checkExit(x, y)){
 		gameOver();
 		refreshGame();
-	}
-}
+	}	
+})
+
+// document.onkeydown = function (event){
+// 	// movement
+// 	if (event.key === "ArrowRight" && checkField(x + 1, y)){
+// 		x++;
+// 	}
+// 	else if(event.key === "ArrowDown" && checkField(x, y + 1)){
+// 		y++;
+// 	}
+// 	else if (event.key === "ArrowLeft" && checkField(x - 1, y)){
+// 		x--;
+// 	}
+// 	else if (event.key === "ArrowUp" && checkField(x, y - 1)){
+// 		y--;
+// 	}
+
+// 	document.querySelector('.enter').classList.remove('enter');
+// 	table.rows[y].cells[x].classList.add('enter');
+
+// 	console.log(checkExit(x, y));
+// 	if (checkExit(x, y)){
+// 		gameOver();
+// 		refreshGame();
+// 	}
+// }
 
 
 
@@ -124,12 +150,6 @@ function checkField (x, y){
 	}
 }
 
-function refreshGame(){
-	// if(confirm('Играть заново?')){
-	// 	window.location.reload();
-	// }
-}
-
 function checkExit (x, y){
 	if (table.rows[y].cells[x].classList.contains('exit')){
 		return true;
@@ -138,7 +158,7 @@ function checkExit (x, y){
 }
 
 function gameOver(){
-	document.onkeydown = undefined;
+	document.addEventListener = undefined;
 }
 
 
