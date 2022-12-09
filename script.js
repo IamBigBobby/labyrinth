@@ -64,7 +64,6 @@ let y = 0;
 for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
-		// поменял х и у и все заработало, wtf
 		y = parsedData.fields[i].x - 1; 
 		x = parsedData.fields[i].y - 1;
 	}
@@ -101,33 +100,6 @@ document.addEventListener('keydown', function (event) {
 		refreshGame();
 	}	
 })
-
-// document.onkeydown = function (event){
-// 	// movement
-// 	if (event.key === "ArrowRight" && checkField(x + 1, y)){
-// 		x++;
-// 	}
-// 	else if(event.key === "ArrowDown" && checkField(x, y + 1)){
-// 		y++;
-// 	}
-// 	else if (event.key === "ArrowLeft" && checkField(x - 1, y)){
-// 		x--;
-// 	}
-// 	else if (event.key === "ArrowUp" && checkField(x, y - 1)){
-// 		y--;
-// 	}
-
-// 	document.querySelector('.enter').classList.remove('enter');
-// 	table.rows[y].cells[x].classList.add('enter');
-
-// 	console.log(checkExit(x, y));
-// 	if (checkExit(x, y)){
-// 		gameOver();
-// 		refreshGame();
-// 	}
-// }
-
-
 
 function checkField (x, y){
 	if (x < 0){
