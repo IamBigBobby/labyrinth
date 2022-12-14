@@ -75,9 +75,8 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}	
 }
 
-
-document.addEventListener('keydown', function (event) {
-	 keyName = event.key;
+function movement (event){
+	keyName = event.key;
 
 	if (keyName == "ArrowRight" && checkField(x + 1, y)){
 		x++;
@@ -97,9 +96,9 @@ document.addEventListener('keydown', function (event) {
 
 	if (checkExit(x, y)){
 		gameOver();
-		refreshGame();
-	}	
-})
+	}
+}
+document.addEventListener('keydown', movement)
 
 function checkField (x, y){
 	if (x < 0){
@@ -130,7 +129,7 @@ function checkExit (x, y){
 }
 
 function gameOver(){
-	document.addEventListener = undefined;
+	document.removeEventListener('keydown', movement);
 }
 
 
