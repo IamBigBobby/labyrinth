@@ -95,9 +95,11 @@ function movement (event){
 	table.rows[y].cells[x].classList.add('enter');
 
 	if (checkExit(x, y)){
-		gameOver();
+		gameEnd();
+		activateGameOverField();
 	}
 }
+
 document.addEventListener('keydown', movement)
 
 function checkField (x, y){
@@ -128,8 +130,24 @@ function checkExit (x, y){
 	return false;
 }
 
-function gameOver(){
+function gameEnd(){
 	document.removeEventListener('keydown', movement);
 }
 
 
+
+let refresh = document.querySelector(".refresh_game")
+
+function refreshGame(){
+	window.location.reload()
+}
+
+refresh.addEventListener('click', refreshGame)
+
+
+function activateGameOverField(){
+	let gameOverField = document.querySelector('.game_over_none');
+	gameOverField.classList.remove('game_over_none');
+	gameOverField.classList.add('game_over_active');
+	console.log('работает')
+}
