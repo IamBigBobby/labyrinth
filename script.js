@@ -75,8 +75,10 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}	
 }
 
+
 function movement (event){
-	keyName = event.key;
+	let prisoner = document.querySelector('.enter')
+	let keyName = event.key;
 
 	if (keyName == "ArrowRight" && checkField(x + 1, y)){
 		x++;
@@ -91,7 +93,7 @@ function movement (event){
 		y--;
 	}
 
-	document.querySelector('.enter').classList.remove('enter');
+	prisoner.classList.remove('enter');
 	table.rows[y].cells[x].classList.add('enter');
 
 	if (checkExit(x, y)){
@@ -149,5 +151,18 @@ function activateGameOverField(){
 	let gameOverField = document.querySelector('.game_over_none');
 	gameOverField.classList.remove('game_over_none');
 	gameOverField.classList.add('game_over_active');
-	console.log('работает')
 }
+
+// drag and drop
+
+let prisoner = document.querySelector('.enter');
+console.log(prisoner)
+prisoner.setAttribute('draggable', 'true');
+console.log(prisoner)
+prisoner.addEventListener("drag", (event) =>{
+	event.target.classList.add('enter')
+});
+
+prisoner.addEventListener("dragend", (event) => {
+	event.target.classList.remove('enter')
+});
