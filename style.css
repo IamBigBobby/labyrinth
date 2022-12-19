@@ -23,3 +23,15 @@ td{
 .enter{
     background-color: red;
 }
+
+.game_over_active{
+    display: block;
+    margin: 0 auto;
+    width: 500px;
+    padding: 40px;
+    text-align: center;
+    border: 1px dotted black;
+}
+.game_over_none{
+    display: none;
+}
