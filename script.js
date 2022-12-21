@@ -63,17 +63,18 @@ let y = 0;
 
 for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter');
 		y = parsedData.fields[i].x - 1; 
 		x = parsedData.fields[i].y - 1;
 	}
 	else if(parsedData.fields[i].type == 'exit'){
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit');
 	}
-	else{
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall')
-	}	
+	else {
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall');
+	}
 }
+
 
 
 function movement (event){
@@ -155,14 +156,40 @@ function activateGameOverField(){
 
 // drag and drop
 
-let prisoner = document.querySelector('.enter');
-console.log(prisoner)
-prisoner.setAttribute('draggable', 'true');
-console.log(prisoner)
-prisoner.addEventListener("drag", (event) =>{
-	event.target.classList.add('enter')
-});
+const dragAndDrop = () => {
+	const prisoner = document.querySelector('.enter');
+	prisoner.setAttribute('draggable', 'true');
+	const cell = document.querySelector('#table').querySelectorAll('td')
 
-prisoner.addEventListener("dragend", (event) => {
-	event.target.classList.remove('enter')
-});
+	function dragStart(){
+		this.classList.add('hide');
+		this.classList.remove('enter')
+	};
+	function dragEnd() {
+		this.classList.remove('hide');
+	}
+	function dragOver (event){
+		event.preventDefault();
+	}
+	function dragEnter() {
+		this.classList.add('hovered');
+	}
+	function dragLeave() {
+		this.classList.remove('hovered');
+	}
+	function dragDrop() {
+		this.classList.add('enter');
+		this.classList.remove('hovered');
+	}
+
+	cell.forEach((cell) => {
+		cell.addEventListener('dragover', dragOver);
+		cell.addEventListener('dragenter', dragEnter);
+		cell.addEventListener('dragleave', dragLeave);
+		cell.addEventListener('drop', dragDrop);
+	})
+
+	prisoner.addEventListener('dragstart', dragStart);
+	prisoner.addEventListener('dragend', dragEnd);
+}
+dragAndDrop();
