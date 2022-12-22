@@ -75,7 +75,15 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}
 }
 
+const cells = document.querySelector('#table').querySelectorAll('td');
 
+for (let cell of cells){
+	if (cell.classList.contains('wall') || cell.classList.contains('enter') || cell.classList.contains('exit')){
+	}
+	else {
+		cell.classList.add('cell')
+	}
+}
 
 function movement (event){
 	let prisoner = document.querySelector('.enter')
@@ -154,16 +162,16 @@ function activateGameOverField(){
 	gameOverField.classList.add('game_over_active');
 }
 
-// drag and drop
+// // drag and drop
 
 const dragAndDrop = () => {
 	const prisoner = document.querySelector('.enter');
 	prisoner.setAttribute('draggable', 'true');
-	const cell = document.querySelector('#table').querySelectorAll('td')
+	const cell = document.querySelectorAll('.cell')
+	console.log(cell)
 
 	function dragStart(){
 		this.classList.add('hide');
-		this.classList.remove('enter')
 	};
 	function dragEnd() {
 		this.classList.remove('hide');
@@ -171,15 +179,16 @@ const dragAndDrop = () => {
 	function dragOver (event){
 		event.preventDefault();
 	}
-	function dragEnter() {
+	function dragEnter(event) {
+		event.preventDefault();
 		this.classList.add('hovered');
 	}
 	function dragLeave() {
 		this.classList.remove('hovered');
 	}
 	function dragDrop() {
-		this.classList.add('enter');
-		this.classList.remove('hovered');
+		this.append(prisoner)
+		// this.classList.add('enter')
 	}
 
 	cell.forEach((cell) => {
