@@ -78,9 +78,7 @@ for (let i = 0; i < parsedData.fields.length; i++){
 const cells = document.querySelector('#table').querySelectorAll('td');
 
 for (let cell of cells){
-	if (cell.classList.contains('wall') || cell.classList.contains('enter') || cell.classList.contains('exit')){
-	}
-	else {
+	if (!cell.classList.contains('wall') && !cell.classList.contains('enter') && !cell.classList.contains('exit')){
 		cell.classList.add('cell')
 	}
 }
