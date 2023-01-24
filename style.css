@@ -35,3 +35,6 @@ td{
 .game_over_none{
     display: none;
 }
+.available{
+    background-color: aqua;
+}

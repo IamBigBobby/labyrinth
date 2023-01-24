@@ -63,15 +63,16 @@ let y = 0;
 
 for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter');
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].setAttribute('draggable', 'true');
 		y = parsedData.fields[i].x - 1; 
 		x = parsedData.fields[i].y - 1;
 	}
 	else if(parsedData.fields[i].type == 'exit'){
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit');
 	}
 	else{
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall');
 	}	
 }
 
@@ -149,5 +150,33 @@ function activateGameOverField(){
 	let gameOverField = document.querySelector('.game_over_none');
 	gameOverField.classList.remove('game_over_none');
 	gameOverField.classList.add('game_over_active');
-	console.log('работает')
+	console.log('работает');
 }
+
+
+
+table.addEventListener('dragenter', function(event){
+	if (!event.target.classList.contains('wall')){
+		event.target.classList.add('available');
+	}
+});
+
+table.addEventListener('dragover', function(event){
+		event.preventDefault();
+});
+
+table.addEventListener('dragleave', function(event){
+	if (!event.target.classList.contains('wall')){
+		event.target.classList.remove('available');
+	}
+});
+
+
+table.addEventListener('drop', function(event){
+	document.querySelector('.enter').classList.remove('enter');
+	if (!event.target.classList.contains('wall')){
+		event.target.classList.add('enter');
+		event.target.classList.remove('available')
+		event.preventDefault();
+	}
+});
