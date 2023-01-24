@@ -71,9 +71,9 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	else if(parsedData.fields[i].type == 'exit'){
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit');
 	}
-	else{
+	else {
 		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall');
-	}	
+	}
 }
 
 function movement (event){
@@ -154,29 +154,62 @@ function activateGameOverField(){
 }
 
 
+// drag and drop player
+// table.addEventListener('dragenter', function(event){
+// 	if (!event.target.classList.contains('wall')){
+// 		event.target.classList.add('available');
+// 	}
+// });
+
+// table.addEventListener('dragover', function(event){
+// 		event.preventDefault();
+// });
+
+// table.addEventListener('dragleave', function(event){
+// 	if (!event.target.classList.contains('wall')){
+// 		event.target.classList.remove('available');
+// 	}
+// });
+
+
+// table.addEventListener('drop', function(event){
+// 	document.querySelector('.enter').classList.remove('enter');
+// 	if (!event.target.classList.contains('wall')){
+// 		event.target.classList.add('enter');
+// 		event.target.classList.remove('available')
+// 		event.preventDefault();
+// 	}
+// });
+
+// drag and drop wall
+
+table.addEventListener('dragstart', function(event){
+	if(event.target.classList.contains('wall') && !event.target.classList.contains('td')){
+		event.target.classList.add('dragable-wall');
+	}
+})
 
 table.addEventListener('dragenter', function(event){
-	if (!event.target.classList.contains('wall')){
+	if (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
 		event.target.classList.add('available');
 	}
-});
-
+})
 table.addEventListener('dragover', function(event){
-		event.preventDefault();
-});
-
+	event.preventDefault();
+})
 table.addEventListener('dragleave', function(event){
-	if (!event.target.classList.contains('wall')){
+	if(!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
 		event.target.classList.remove('available');
 	}
-});
-
-
+})
 table.addEventListener('drop', function(event){
-	document.querySelector('.enter').classList.remove('enter');
-	if (!event.target.classList.contains('wall')){
-		event.target.classList.add('enter');
-		event.target.classList.remove('available')
-		event.preventDefault();
+	document.querySelector('.dragable-wall').classList.remove('wall');
+	document.querySelector('.dragable-wall').classList.remove('dragable-wall');
+	if (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
+		event.target.classList.add('wall');
+		event.target.classList.remove('available');
 	}
-});
+})
+
+
+	
