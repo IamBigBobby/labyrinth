@@ -76,32 +76,34 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}
 }
 
-function activateKeyMovement (event){
-	keyName = event.key;
+function gameModeSelection(){
+	let keybordMoving = document.querySelector('.keyboard_moving');
+	let dragAndDropPlayer = document.querySelector('.drag_and_drop_player');
+	let dragAndDropWall = document.querySelector('.drag_and_drop_wall');
 
-	if (keyName == "ArrowRight" && checkField(x + 1, y)){
-		x++;
-	}
-	else if(keyName == "ArrowDown" && checkField(x, y + 1)){
-		y++;
-	}
-	else if (keyName == "ArrowLeft" && checkField(x - 1, y)){
-		x--;
-	}
-	else if (keyName == "ArrowUp" && checkField(x, y - 1)){
-		y--;
-	}
+	keybordMoving.addEventListener('click', function(){
+		document.addEventListener('keydown', activateKeyMovement);
+	})
 
-	document.querySelector('.enter').classList.remove('enter');
-	table.rows[y].cells[x].classList.add('enter');
+	dragAndDropPlayer.addEventListener('click', function(){
+		table.addEventListener('dragenter', activateDragenterPlayer);
+		table.addEventListener('dragover', activateDragOverPlayer);
+		table.addEventListener('dragleave', activateDragLeavePlayer);
+		table.addEventListener('drop', activateDragAndDropPlayer);
+	})
 
-	if (checkExit(x, y)){
-		gameEnd();
-		activateGameOverField();
-	}
+	dragAndDropWall.addEventListener('click', function(){
+		activateDraggableWall();
+		table.addEventListener('dragstart', activateDragstartWall);
+		table.addEventListener('dragenter', activateDragenterWall);
+		table.addEventListener('dragover', activateDragoverWall);
+		table.addEventListener('dragleave', activateDragleaveWall);
+		table.addEventListener('drop', activateDropWall);
+	})
 }
+gameModeSelection();
 
-document.addEventListener('keydown', activateKeyMovement)
+
 
 function checkField (x, y){
 	if (x < 0){
@@ -155,26 +157,50 @@ function activateGameOverField(){
 
 
 
+// keyboard moving
+function activateKeyMovement (event){
+	keyName = event.key;
+
+	if (keyName == "ArrowRight" && checkField(x + 1, y)){
+		x++;
+	}
+	else if(keyName == "ArrowDown" && checkField(x, y + 1)){
+		y++;
+	}
+	else if (keyName == "ArrowLeft" && checkField(x - 1, y)){
+		x--;
+	}
+	else if (keyName == "ArrowUp" && checkField(x, y - 1)){
+		y--;
+	}
+
+	document.querySelector('.enter').classList.remove('enter');
+	table.rows[y].cells[x].classList.add('enter');
+
+	if (checkExit(x, y)){
+		gameEnd();
+		activateGameOverField();
+	}
+}
 
 
+
+// drag and drop player
 function activateDragenterPlayer(event){
 	if (!event.target.classList.contains('wall')){
 		event.target.classList.add('available');
 	}
 }
-table.addEventListener('dragenter', activateDragenterPlayer);
 
 function activateDragOverPlayer(event){
 	event.preventDefault();
 }
-table.addEventListener('dragover', activateDragOverPlayer);
 
 function activateDragLeavePlayer(event){
 	if (!event.target.classList.contains('wall')){
 		event.target.classList.remove('available');
 	}
 }
-table.addEventListener('dragleave', activateDragLeavePlayer);
 
 function activateDragAndDropPlayer(event){
 	if (!event.target.classList.contains('wall')){
@@ -191,13 +217,12 @@ function activateDragAndDropPlayer(event){
 		event.preventDefault();
 	}
 }
-table.addEventListener('drop', activateDragAndDropPlayer);
 
 
 
 
 
-
+// drag and drop wall
 function activateDraggableWall(){
 	for (let i = 0; i < parsedData.fields.length; i++){
 		if (parsedData.fields[i].type == 'wall'){
@@ -205,49 +230,43 @@ function activateDraggableWall(){
 		}
 	}
 }
-activateDraggableWall();
 
 function activateDragstartWall(event){
 	if(event.target.classList.contains('wall')){
 		event.target.classList.add('draggable-wall');
 	}
 }
-table.addEventListener('dragstart', activateDragstartWall);
 
 function activateDragenterWall(event){
-	if (document.querySelector('.draggable-wall') && (!event.target.classList.contains('enter') || !event.target.classList.contains('exit') || !event.target.classList.contains('wall'))){
+	if (document.querySelector('.draggable-wall') && (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall'))){
 		event.target.classList.add('available');
 	}	
 }
-table.addEventListener('dragenter', activateDragenterWall);
 
 function activateDragoverWall(event){
-	if (!event.target.classList.contains('enter') || !event.target.classList.contains('exit') || !event.target.classList.contains('wall')){
+	if (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
 		event.preventDefault();
 	}	
 }
-table.addEventListener('dragover', activateDragoverWall);
 
 function activateDragleaveWall(event){
-	if(!event.target.classList.contains('enter') || !event.target.classList.contains('exit') || !event.target.classList.contains('wall')){
+	if(!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
 		event.target.classList.remove('available');
 	}
 }
-table.addEventListener('dragleave', activateDragleaveWall);
 
 function activateDropWall(event){
 	document.querySelector('.draggable-wall').removeAttribute('draggable');
 	document.querySelector('.draggable-wall').classList.remove('wall');
 	document.querySelector('.draggable-wall').classList.remove('draggable-wall');
 
-	if (!event.target.classList.contains('enter') || !event.target.classList.contains('exit') || !event.target.classList.contains('wall')){
+	if (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
 		event.target.classList.add('wall');
 		event.target.setAttribute('draggable', 'true');
 		event.target.classList.remove('available');
 		event.preventDefault();
 	}
 }
-table.addEventListener('drop', activateDropWall)
 	
 	
 
