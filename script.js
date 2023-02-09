@@ -63,44 +63,47 @@ let y = 0;
 
 for (let i = 0; i < parsedData.fields.length; i++){
 	if (parsedData.fields[i].type == 'enter'){
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('enter');
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].setAttribute('draggable', 'true');
 		y = parsedData.fields[i].x - 1; 
 		x = parsedData.fields[i].y - 1;
 	}
 	else if(parsedData.fields[i].type == 'exit'){
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit')
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('exit');
 	}
-	else{
-		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall')
-	}	
-}
-
-function movement (event){
-	keyName = event.key;
-
-	if (keyName == "ArrowRight" && checkField(x + 1, y)){
-		x++;
-	}
-	else if(keyName == "ArrowDown" && checkField(x, y + 1)){
-		y++;
-	}
-	else if (keyName == "ArrowLeft" && checkField(x - 1, y)){
-		x--;
-	}
-	else if (keyName == "ArrowUp" && checkField(x, y - 1)){
-		y--;
-	}
-
-	document.querySelector('.enter').classList.remove('enter');
-	table.rows[y].cells[x].classList.add('enter');
-
-	if (checkExit(x, y)){
-		gameEnd();
-		activateGameOverField();
+	else {
+		table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].classList.add('wall');
 	}
 }
 
-document.addEventListener('keydown', movement)
+function gameModeSelection(){
+	let keybordMoving = document.querySelector('.keyboard_moving');
+	let dragAndDropPlayer = document.querySelector('.drag_and_drop_player');
+	let dragAndDropWall = document.querySelector('.drag_and_drop_wall');
+
+	keybordMoving.addEventListener('click', function(){
+		document.addEventListener('keydown', activateKeyMovement);
+	})
+
+	dragAndDropPlayer.addEventListener('click', function(){
+		table.addEventListener('dragenter', activateDragenterPlayer);
+		table.addEventListener('dragover', activateDragOverPlayer);
+		table.addEventListener('dragleave', activateDragLeavePlayer);
+		table.addEventListener('drop', activateDragAndDropPlayer);
+	})
+
+	dragAndDropWall.addEventListener('click', function(){
+		activateDraggableWall();
+		table.addEventListener('dragstart', activateDragstartWall);
+		table.addEventListener('dragenter', activateDragenterWall);
+		table.addEventListener('dragover', activateDragoverWall);
+		table.addEventListener('dragleave', activateDragleaveWall);
+		table.addEventListener('drop', activateDropWall);
+	})
+}
+gameModeSelection();
+
+
 
 function checkField (x, y){
 	if (x < 0){
@@ -131,23 +134,142 @@ function checkExit (x, y){
 }
 
 function gameEnd(){
-	document.removeEventListener('keydown', movement);
+	document.removeEventListener('keydown', activateKeyMovement);
 }
 
 
 
 let refresh = document.querySelector(".refresh_game")
-
 function refreshGame(){
 	window.location.reload()
 }
 
 refresh.addEventListener('click', refreshGame)
 
-
 function activateGameOverField(){
 	let gameOverField = document.querySelector('.game_over_none');
 	gameOverField.classList.remove('game_over_none');
 	gameOverField.classList.add('game_over_active');
-	console.log('работает')
 }
+
+
+
+
+
+
+// keyboard moving
+function activateKeyMovement (event){
+	keyName = event.key;
+
+	if (keyName == "ArrowRight" && checkField(x + 1, y)){
+		x++;
+	}
+	else if(keyName == "ArrowDown" && checkField(x, y + 1)){
+		y++;
+	}
+	else if (keyName == "ArrowLeft" && checkField(x - 1, y)){
+		x--;
+	}
+	else if (keyName == "ArrowUp" && checkField(x, y - 1)){
+		y--;
+	}
+
+	document.querySelector('.enter').classList.remove('enter');
+	table.rows[y].cells[x].classList.add('enter');
+
+	if (checkExit(x, y)){
+		gameEnd();
+		activateGameOverField();
+	}
+}
+
+
+
+// drag and drop player
+function activateDragenterPlayer(event){
+	if (!event.target.classList.contains('wall')){
+		event.target.classList.add('available');
+	}
+}
+
+function activateDragOverPlayer(event){
+	event.preventDefault();
+}
+
+function activateDragLeavePlayer(event){
+	if (!event.target.classList.contains('wall')){
+		event.target.classList.remove('available');
+	}
+}
+
+function activateDragAndDropPlayer(event){
+	if (!event.target.classList.contains('wall')){
+		document.querySelector('.enter').removeAttribute('draggable');
+		document.querySelector('.enter').classList.remove('enter');
+		event.target.classList.add('enter');
+		event.target.setAttribute('draggable', 'true');
+		event.target.classList.remove('available');
+		
+		if(event.target.classList.contains('exit')){
+			gameEnd();
+			activateGameOverField();
+		}
+		event.preventDefault();
+	}
+}
+
+
+
+
+
+// drag and drop wall
+function activateDraggableWall(){
+	for (let i = 0; i < parsedData.fields.length; i++){
+		if (parsedData.fields[i].type == 'wall'){
+			table.rows[parsedData.fields[i].x - 1].cells[parsedData.fields[i].y - 1].setAttribute('draggable', 'true');
+		}
+	}
+}
+
+function activateDragstartWall(event){
+	if(event.target.classList.contains('wall')){
+		event.target.classList.add('draggable-wall');
+	}
+}
+
+function activateDragenterWall(event){
+	if (document.querySelector('.draggable-wall') && (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall'))){
+		event.target.classList.add('available');
+	}	
+}
+
+function activateDragoverWall(event){
+	if (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
+		event.preventDefault();
+	}	
+}
+
+function activateDragleaveWall(event){
+	if(!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
+		event.target.classList.remove('available');
+	}
+}
+
+function activateDropWall(event){
+	document.querySelector('.draggable-wall').removeAttribute('draggable');
+	document.querySelector('.draggable-wall').classList.remove('wall');
+	document.querySelector('.draggable-wall').classList.remove('draggable-wall');
+
+	if (!event.target.classList.contains('enter') && !event.target.classList.contains('exit') && !event.target.classList.contains('wall')){
+		event.target.classList.add('wall');
+		event.target.setAttribute('draggable', 'true');
+		event.target.classList.remove('available');
+		event.preventDefault();
+	}
+}
+	
+	
+
+
+
+

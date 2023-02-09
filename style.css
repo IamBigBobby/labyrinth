@@ -7,6 +7,14 @@ table{
     border-collapse: collapse;
     border-spacing: 0;
 }
+.mode_selection{
+    display: block;
+    margin: 20px auto;
+    width: 500px;
+    padding: 40px;
+    text-align: center;
+    border: 1px dotted black;
+}
 td{
     padding: 10px 10px;
     border: 1px solid #000;
@@ -34,4 +42,7 @@ td{
 }
 .game_over_none{
     display: none;
+}
+.available{
+    background-color: aqua;
 }
