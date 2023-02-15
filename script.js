@@ -237,14 +237,50 @@ function activateDragAndDropPlayer(event){
 		event.target.classList.add('enter');
 		event.target.setAttribute('draggable', 'true');
 		event.target.classList.remove('available');
-		
 		if(event.target.classList.contains('exit')){
 			gameEnd();
 			activateGameOverField();
 		}
-		event.preventDefault();
 	}
 }
+
+function checkAvailableFields(x, y){
+	
+	for (i = x + 1;; i++){
+		if (checkField(i, y)){
+			table.rows[y].cells[i].classList.add('available');
+		}
+		else{
+			break;
+		}
+		console.log(checkField(i, y))
+	}
+	for (i = x - 1;; i--){
+		if (checkField(i, y) == true){
+			table.rows[y].cells[i].classList.add('available');
+		}
+		else{
+			break;
+		}
+	}
+	for (i = y + 1;; i++){
+		if (checkField(x, i) && !table.rows[i].cells[x].classList.contains('exit')){
+			table.rows[i].cells[x].classList.add('available');
+		}
+		else {
+			break;
+		}
+	}
+	for (i = y - 1;; i--){
+		if (checkField(x, i)){
+			table.rows[i].cells[x].classList.add('available');
+		}
+		else {
+			break;
+		}
+	}
+}
+checkAvailableFields(x, y)
 
 
 
