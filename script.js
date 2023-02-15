@@ -76,29 +76,57 @@ for (let i = 0; i < parsedData.fields.length; i++){
 	}
 }
 
+
 function gameModeSelection(){
 	let keybordMoving = document.querySelector('.keyboard_moving');
 	let dragAndDropPlayer = document.querySelector('.drag_and_drop_player');
 	let dragAndDropWall = document.querySelector('.drag_and_drop_wall');
+	let buttonEndGame = document.querySelector('.game_over_selection_none');
+	let modeSelestionField = document.querySelector('.mode_selection')
 
 	keybordMoving.addEventListener('click', function(){
+
+		buttonEndGame.classList.remove('game_over_selection_none');
+		buttonEndGame.classList.add('game_over_selection');
+
+		modeSelestionField.classList.remove('mode_selection');
+		modeSelestionField.classList.add('mode_selection_none');
+
 		document.addEventListener('keydown', activateKeyMovement);
+
+		buttonEndGame.addEventListener('click', refreshGame);
 	})
 
 	dragAndDropPlayer.addEventListener('click', function(){
+		buttonEndGame.classList.remove('game_over_selection_none');
+		buttonEndGame.classList.add('game_over_selection');
+
+		modeSelestionField.classList.remove('mode_selection');
+		modeSelestionField.classList.add('mode_selection_none');
+
 		table.addEventListener('dragenter', activateDragenterPlayer);
 		table.addEventListener('dragover', activateDragOverPlayer);
 		table.addEventListener('dragleave', activateDragLeavePlayer);
 		table.addEventListener('drop', activateDragAndDropPlayer);
+
+		buttonEndGame.addEventListener('click', refreshGame);
 	})
 
 	dragAndDropWall.addEventListener('click', function(){
+		buttonEndGame.classList.remove('game_over_selection_none');
+		buttonEndGame.classList.add('game_over_selection');
+
+		modeSelestionField.classList.remove('mode_selection');
+		modeSelestionField.classList.add('mode_selection_none');
+
 		activateDraggableWall();
 		table.addEventListener('dragstart', activateDragstartWall);
 		table.addEventListener('dragenter', activateDragenterWall);
 		table.addEventListener('dragover', activateDragoverWall);
 		table.addEventListener('dragleave', activateDragleaveWall);
 		table.addEventListener('drop', activateDropWall);
+
+		buttonEndGame.addEventListener('click', refreshGame);
 	})
 }
 gameModeSelection();
